@@ -1,0 +1,64 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+.header1 {
+    margin:0 0 0 20px;
+    font-size: 20px;
+}
+.form-address {
+    display:table;
+}
+html {
+    position: relative;
+    min-height: 100%;
+}
+.items {
+    width: fit-content;
+    border:1px solid Black;
+    border-radius:10px;
+    padding:30px;
+    display:flex;
+}
+form {
+    margin:20px;
+}
+button {
+    background: #fffafa;
+    transition:all 0.5s ease;
+}
+button:active {
+        background: #6495ed;
+}
+button:hover {
+   transform: translateY(-2px);
+   box-shadow:2px 2px Grey;
+        
+}
+.modal-body p {
+    white-space: pre-line; 
+    color: red;
+}
+.content {
+    margin: 20px 20px;
+}
+.intput-1 {
+    min-width: 300px;
+}
+
+label {
+    display:block;
+}
+ul {
+   margin: 0 0 0 0;
+   list-style-type:none;
+}

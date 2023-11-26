@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "Analitica";
+}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
+<header class="header1"><strong>Аналитика</strong></header>
+<table id="myTable" class="display">
+    <thead>
+        <tr>
+            <th>name</th>
+            <th>official_name</th>
+            <th>region</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+         </tr>
+        
+    </tbody>
+</table>
+
+
+@section Scripts{
+    
+   
+    <script>
+        $("document").ready(async function () {
+            $("#myTable").DataTable();
+            
+
+                const response = await fetch('https://countryapi.io/api/all/?apikey=q0wj7CJmrMvABF8ZpUWR5Wxd77jNqGlC5ynHScwt');
+                var myJson = await response.json();
+                $.each(myJson, function (index, v) {
+                    table.row
+                        .add([
+                            v.name,
+                            v.official_name,
+                            v.region
+                        ])
+                        .draw(false);
+                })
+
+
+
+            
+        })
+    </script>
+}
