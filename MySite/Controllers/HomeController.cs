@@ -15,6 +15,7 @@ namespace MySite.Controllers
 
         public IActionResult Index()
         {
+            
             return View();
         }
         
