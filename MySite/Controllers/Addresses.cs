@@ -11,6 +11,7 @@ namespace MySite.Controllers
         [HttpPost]
         public IActionResult SaveAddress(Address address)
         {
+            
             PostgresContext context = new PostgresContext();
             try 
             { 
@@ -18,7 +19,7 @@ namespace MySite.Controllers
                 context.SaveChanges();
             }
             catch(Exception ex) { 
-                return RedirectToAction("SaveAddress", "Addresses", new {ex.Message });
+                return RedirectToAction("SaveAddress", "Addresses", new{ ex?.InnerException?.Message});
             }
 
             return RedirectToAction("SaveAddress", "Addresses", new{ message = "Успешно" });

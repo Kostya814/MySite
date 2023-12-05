@@ -13,5 +13,8 @@
         public int NumberRoom { get; set; }
         public string Description { get; set; }
         public string LeterHome { get; set; }
+        public string? LeterName1 { get; set;}
+
+        public string? LeterName2 { get; set; }
     }
 }
