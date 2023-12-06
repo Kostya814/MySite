@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MySite.Models;
 using System.Diagnostics;
 
@@ -7,6 +8,7 @@ namespace MySite.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        PostgresContext context = new PostgresContext();
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -15,8 +17,7 @@ namespace MySite.Controllers
 
         public IActionResult Index()
         {
-            
-            return View();
+            return RedirectToAction("Index", "Addresses");
         }
         
         public IActionResult Privacy()
@@ -25,7 +26,7 @@ namespace MySite.Controllers
         }
         public IActionResult Analitica()
         {
-            return View();
+            return View(context.Addresses);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

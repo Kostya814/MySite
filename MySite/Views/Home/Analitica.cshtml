@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Analitica";
 }
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css">
 <header class="header1"><strong>Аналитика</strong></header>
 <table id="myTable" class="display">
     <thead>
@@ -9,16 +9,36 @@
             <th>name</th>
             <th>official_name</th>
             <th>region</th>
+            <th>Кнопки</th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-         </tr>
+        @{foreach (var i in Model)
+            {
+                <tr>
+                    <td>@i.PrefixLocality</td>
+                    <td>@i.PrefixLocality</td>
+                    <td>@i.PrefixLocality</td>
+                    <th id="row_btn">
+                        <form id="myForm" method="post" asp-controller="Addresses" asp-action="Delete">
+                            <input id ="idaddress" name="id" type="number" value="@i.Id"/>
+                            <button id="btn_delete" type="submit">Удалить</button>
+                        </form>
+                        <form id="myForm" method="post" action="/addresses/Change">
+                            <input id="idaddress" name="id" type="number" value="@i.Id"/>
+                            <button id="btn_change" type="submit">Изменить</button>
+                        </form>
+                        
+                    </th>
+                </tr>
+            }
+         }
+         
         
     </tbody>
 </table>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+<script src="~/js/analitica.js"></script>
 
 
