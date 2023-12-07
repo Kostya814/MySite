@@ -8,7 +8,6 @@ namespace MySite.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        PostgresContext context = new PostgresContext();
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -22,11 +21,11 @@ namespace MySite.Controllers
         
         public IActionResult Privacy()
         {
-            return View();
+            return View("~/Views/Home/Index.cshtml");
         }
         public IActionResult Analitica()
         {
-            return View(context.Addresses);
+            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

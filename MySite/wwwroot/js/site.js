@@ -8,7 +8,8 @@ let modal2 = document.querySelector(".modal");
 let textEdit = document.querySelector("#myTextarea");
 let btnEdit = document.querySelector("#editButton"); 
 var isEdit = false;
-
+let messageDiv = document.getElementsByClassName('message_info');
+messageDiv.setAttribute("visibility", visible);
 
 btnEdit.onclick = () => {
     if (!isEdit) {

@@ -3,12 +3,20 @@
 }
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css">
 <header class="header1"><strong>Аналитика</strong></header>
+<div class="interface">
 <table id="myTable" class="display">
     <thead>
         <tr>
-            <th>name</th>
-            <th>official_name</th>
-            <th>region</th>
+            <th>Префикс населенного пункта</th>
+            <th>Название населенного пункта</th>
+            <th>Префикс улицы</th>
+            <th>Название улицы</th>
+            <th>Номер дома</th>
+            <th>Литера дома</th>
+            <th>Номер корпуса</th>
+            <th>Номер квартиры</th>
+            <th>Номер комнаты</th>
+            <th>Комментарий</th>
             <th>Кнопки</th>
         </tr>
     </thead>
@@ -17,26 +25,43 @@
             {
                 <tr>
                     <td>@i.PrefixLocality</td>
-                    <td>@i.PrefixLocality</td>
-                    <td>@i.PrefixLocality</td>
+                    <td>@i.NameLocality</td>
+                    <td>@i.PrefixStreet</td>
+                    <td>@i.NameStreet</td>
+                    <td>@i.NumberHouse</td>
+                    <td>@i.LeterHome</td>
+                    <td>@i.NumberCase</td>
+                    <td>@i.NumberApartments</td>
+                    <td>@i.NumberRoom</td>
+                    <td>@i.Description</td>
                     <th id="row_btn">
                         <form id="myForm" method="post" asp-controller="Addresses" asp-action="Delete">
                             <input id ="idaddress" name="id" type="number" value="@i.Id"/>
                             <button id="btn_delete" type="submit">Удалить</button>
                         </form>
-                        <form id="myForm" method="post" action="/addresses/Change">
+                        <form id="myForm" method="post" asp-controller="Addresses" asp-action="Edit">
                             <input id="idaddress" name="id" type="number" value="@i.Id"/>
-                            <button id="btn_change" type="submit">Изменить</button>
+                                <button id="btn_change" type="submit">Редактировать</button>
                         </form>
-                        
                     </th>
-                </tr>
+                    </tr>
+                }
             }
-         }
-         
-        
-    </tbody>
-</table>
+        </tbody>
+    </table>
+    <button id="Addaddress" type="button">Добавить адрес</button>
+</div>
+<div class="message_info">
+    @if (ViewBag != null)
+    {
+        <h2>@ViewBag.Title</h2>
+        <p>@ViewBag.Message</p>
+    }
+</div>
+<script>
+    let messageDiv = document.getElementsByClassName('message_info');
+    messageDiv.style.visibility = 'visible';
+</script>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
 <script src="~/js/analitica.js"></script>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Net;
 
 namespace MySite.Controllers
@@ -21,40 +22,64 @@ namespace MySite.Controllers
             catch (Exception ex) {
                 ViewBag.Title = "Ошибка при добавлении";
                 ViewBag.Message = ex?.InnerException?.Message;
-                return RedirectToAction("SaveAddress", "Addresses");
+                return RedirectToAction("Index", "Addresses");
             }
-
-            return RedirectToAction("SaveAddress", "Addresses", new { message = "Успешно" });
+            ViewBag.Title = "Успешное добавление";
+            ViewBag.Message = "Успешно добавлено";
+            return RedirectToAction("Index", "Addresses");
         }
         [HttpGet]
         public IActionResult Index()
         {
-            return View("~/Views/Home/Index.cshtml");
+            return View("~/Views/Home/Analitica.cshtml",context.Addresses);
         }
         [HttpGet]
-        public IActionResult Edit()
+        public IActionResult Edit(Address address)
         {
-            return View();
+            return View("~/Views/Home/EditAddress.cshtml",address);
         }
         [HttpPost]
         public IActionResult Edit(Address newAddress,int id)
         {
-            Address? address = context.Addresses.FirstOrDefault(u=>u.Id==id);
-            if (address != null)
+            if (ModelState.IsValid)
             {
-                address = newAddress;
+                Address? address = context.Addresses.Find(newAddress.Id);
+                if (address != null)
+                {
+                    address.PrefixLocality = newAddress.PrefixLocality;
+                    address.NameLocality = newAddress.NameLocality;
+                    address.PrefixStreet = newAddress.PrefixStreet;
+                    address.NameStreet = newAddress.NameStreet;
+                    address.NumberHouse = newAddress.NumberHouse;
+                    address.NumberCase  = newAddress.NumberCase;
+                    address.NumberApartments = newAddress.NumberApartments;
+                    address.NumberRoom = newAddress.NumberRoom;
+                    address.LeterHome = newAddress.LeterHome;
+                    address.Description  = newAddress.Description;
+                }
             }
-            else return RedirectToAction("Index", "Addresses");
+            else 
+            {
+                Address? address = context.Addresses.FirstOrDefault(u => u.Id == id);
+                if (address != null)
+                {
+                    return RedirectToAction("Edit", "Addresses", address);
+                }
+                else return RedirectToAction("Index", "Addresses");
+            }
             try
             {
                 context.SaveChanges();
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Delete", "Addresses", new { ex?.InnerException?.Message });
+                ViewBag.Title = "Ошибка при изменении";
+                ViewBag.Message = ex?.InnerException?.Message;
+                return RedirectToAction("Index", "Addresses");
             }
-
-            return RedirectToAction("Delete", "Addresses", new { message = "Успешно" });
+            ViewBag.Title = "Успешное изменение адреса";
+            ViewBag.Message = "Успешно изменено";
+            return RedirectToAction("Index", "Addresses");
         }
         [HttpPost]
         public IActionResult Delete(int id)
@@ -68,9 +93,12 @@ namespace MySite.Controllers
             }
             catch (Exception ex)
             {
+                ViewBag.Title = "Ошибка удаления";
+                ViewBag.Message = ex?.InnerException?.Message;
                 return RedirectToAction("Index", "Addresses");
             }
-
+            ViewBag.Title = "Успешное удаление";
+            ViewBag.Message = "Успешно удалено";
             return RedirectToAction("Index", "Addresses");
         }
         [HttpGet]

@@ -1,0 +1,51 @@
+﻿@model Address
+<form class="form-address" method="post" asp-controller="Addresses" asp-action="Edit">
+    <div class="items">
+        <ul class="list">
+            <li>
+                <label class="labeinfo">Префикс населенного пункта</label>
+                <input class="intput-1" name="PrefixLocality" value="@Model.PrefixLocality" type="text" />
+            </li>
+            <li>
+                <label class="labeinfo">Название населенного пункта</label>
+                <input class="intput-1" name="NameLocality" value="@Model.NameLocality" type="text" />
+            </li>
+            <li>
+                <label class="labeinfo">Префикс улицы</label>
+                <input class="intput-1" name="PrefixStreet" value="@Model.PrefixStreet" type="text" />
+            </li>
+            <li>
+                <label class="labeinfo">Название улицы</label>
+                <input class="intput-1" name="NameStreet" value="@Model.NameStreet" type="text" />
+            </li>
+            <li>
+                <label class="labeinfo">Номер дома</label>
+                <input class="intput-1" name="NumberHouse" value="@Model.NumberHouse" type="number" />
+            </li>
+            <li>
+                <label class="labeinfo">Литера дома</label>
+                <input class="intput-1" name="LeterHome" value="@Model.LeterHome" type="text" />
+            </li>
+            <li>
+                <label class="labeinfo">Номер корпуса</label>
+                <input class="intput-1" name="NumberCase" value="@Model.NumberCase" type="number" />
+            </li>
+            <li>
+                <label class="labeinfo">Номер квартиры</label>
+                <input class="intput-1" name="NumberApartments" value="@Model.NumberApartments" type="number" />
+            </li>
+            <li>
+                <label class="labeinfo">Номер комнаты</label>
+                <input class="intput-1" name="NumberRoom" value="@Model.NumberRoom" type="number" />
+            </li>
+            <li>
+                <label class="labeinfo">Комментарий</label>
+                <textarea class="intput-1" name="Description" value="@Model.Description" type="text"></textarea>
+            </li>
+            <li>
+                <button id="btn_ok" type="submit">Сохранить</button>
+                <button id="btn_cancel" type="button">Отменить</button>
+            </li>
+        </ul>
+    </div>
+</form>
