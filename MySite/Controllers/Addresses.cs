@@ -20,17 +20,18 @@ namespace MySite.Controllers
                 context.SaveChanges();
             }
             catch (Exception ex) {
-                ViewBag.Title = "Ошибка при добавлении";
-                ViewBag.Message = ex?.InnerException?.Message;
-                return RedirectToAction("Index", "Addresses");
+                return RedirectToAction("Index", "Addresses", new { TitleResult = "Ошибка при добавлении", MessageResult = ex?.InnerException?.Message });
             }
-            ViewBag.Title = "Успешное добавление";
-            ViewBag.Message = "Успешно добавлено";
-            return RedirectToAction("Index", "Addresses");
+            return RedirectToAction("Index", "Addresses", new { TitleResult = "Успешное добавление", MessageResult = "Успешно добавлено" });
         }
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(string TitleResult, string MessageResult)
         {
+            if(ModelState.IsValid)
+            {
+                ViewBag.TitleResult = TitleResult;
+                ViewBag.MessageResult = MessageResult;
+            }            
             return View("~/Views/Home/Analitica.cshtml",context.Addresses);
         }
         [HttpGet]
@@ -60,12 +61,12 @@ namespace MySite.Controllers
             }
             else 
             {
-                Address? address = context.Addresses.FirstOrDefault(u => u.Id == id);
+                Address? address = context.Addresses.Find(id);
                 if (address != null)
                 {
                     return RedirectToAction("Edit", "Addresses", address);
                 }
-                else return RedirectToAction("Index", "Addresses");
+                else return RedirectToAction("Index", "Addresses", new { TitleResult = "Ошибка поиска", MessageResult = "Не найден адрес" });
             }
             try
             {
@@ -73,19 +74,18 @@ namespace MySite.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Title = "Ошибка при изменении";
-                ViewBag.Message = ex?.InnerException?.Message;
-                return RedirectToAction("Index", "Addresses");
+                return RedirectToAction("Index", "Addresses", new { TitleResult = "Ошибка при изменении", MessageResult = ex?.InnerException?.Message });
             }
-            ViewBag.Title = "Успешное изменение адреса";
-            ViewBag.Message = "Успешно изменено";
-            return RedirectToAction("Index", "Addresses");
+            return RedirectToAction("Index", "Addresses", new { TitleResult = "Успешное изменение адреса", MessageResult = "Успешно изменено" });
         }
         [HttpPost]
         public IActionResult Delete(int id)
         {
-            var address = context.Addresses.FirstOrDefault(u => u.Id == id);
-            if (address == null) return RedirectToAction("Index", "Addresses");
+            var address = context.Addresses.Find(id);
+            if (address == null)
+            {
+                return RedirectToAction("Index", "Addresses", new { TitleResult = "Ошибка поиска", MessageResult = "Не найден адрес" }); 
+            }
             try
             {
                 context.Addresses.Remove(address);
@@ -93,13 +93,9 @@ namespace MySite.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Title = "Ошибка удаления";
-                ViewBag.Message = ex?.InnerException?.Message;
-                return RedirectToAction("Index", "Addresses");
+                return RedirectToAction("Index", "Addresses",new { TitleResult = "Ошибка удаления", MessageResult = ex?.InnerException?.Message });
             }
-            ViewBag.Title = "Успешное удаление";
-            ViewBag.Message = "Успешно удалено";
-            return RedirectToAction("Index", "Addresses");
+            return RedirectToAction("Index", "Addresses", new { TitleResult = "Успешное удаление", MessageResult = "Успешно удалено" });
         }
         [HttpGet]
         public IActionResult Delete()

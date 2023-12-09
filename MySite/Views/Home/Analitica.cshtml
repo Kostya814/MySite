@@ -1,7 +1,9 @@
 ﻿@{
     ViewData["Title"] = "Analitica";
 }
+
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css">
+<link rel="stylesheet" href="~/css/message_box.css">
 <header class="header1"><strong>Аналитика</strong></header>
 <div class="interface">
 <table id="myTable" class="display">
@@ -23,27 +25,27 @@
     <tbody>
         @{foreach (var i in Model)
             {
-                <tr>
-                    <td>@i.PrefixLocality</td>
-                    <td>@i.NameLocality</td>
-                    <td>@i.PrefixStreet</td>
-                    <td>@i.NameStreet</td>
-                    <td>@i.NumberHouse</td>
-                    <td>@i.LeterHome</td>
-                    <td>@i.NumberCase</td>
-                    <td>@i.NumberApartments</td>
-                    <td>@i.NumberRoom</td>
-                    <td>@i.Description</td>
-                    <th id="row_btn">
-                        <form id="myForm" method="post" asp-controller="Addresses" asp-action="Delete">
-                            <input id ="idaddress" name="id" type="number" value="@i.Id"/>
-                            <button id="btn_delete" type="submit">Удалить</button>
-                        </form>
-                        <form id="myForm" method="post" asp-controller="Addresses" asp-action="Edit">
-                            <input id="idaddress" name="id" type="number" value="@i.Id"/>
+                    <tr>
+                        <td>@i.PrefixLocality</td>
+                        <td>@i.NameLocality</td>
+                        <td>@i.PrefixStreet</td>
+                        <td>@i.NameStreet</td>
+                        <td>@i.NumberHouse</td>
+                        <td>@i.LeterHome</td>
+                        <td>@i.NumberCase</td>
+                        <td>@i.NumberApartments</td>
+                        <td>@i.NumberRoom</td>
+                        <td>@i.Description</td>
+                        <th id="row_btn">
+                            <form id="myForm" method="post" asp-controller="Addresses" asp-action="Delete">
+                                <input id ="idaddress" name="id" type="number" value="@i.Id"/>
+                                <button id="btn_delete" type="submit" onclick="return confirm('Вы действительно хотите удалить адрес @i.GetInfo')">Удалить</button>
+                            </form>
+                            <form id="myForm" method="post" asp-controller="Addresses"  asp-action="Edit">
+                                <input id="idaddress" name="id" type="number" value="@i.Id"/>
                                 <button id="btn_change" type="submit">Редактировать</button>
-                        </form>
-                    </th>
+                            </form>
+                        </th>
                     </tr>
                 }
             }
@@ -52,18 +54,22 @@
     <button id="Addaddress" type="button">Добавить адрес</button>
 </div>
 <div class="message_info">
-    @if (ViewBag != null)
-    {
-        <h2>@ViewBag.Title</h2>
-        <p>@ViewBag.Message</p>
+    @{
+        if (ViewBag != null)
+        {
+            <h2>@ViewBag.TitleResult</h2>
+            <p>@ViewBag.MessageResult</p>
+        }
+        else
+        {
+            <h2></h2>
+            <p></p>
+        }
     }
 </div>
-<script>
-    let messageDiv = document.getElementsByClassName('message_info');
-    messageDiv.style.visibility = 'visible';
-</script>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
 <script src="~/js/analitica.js"></script>
+<script src="~/js/message_box.js"></script>
 
 

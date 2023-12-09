@@ -40,12 +40,18 @@
             </li>
             <li>
                 <label class="labeinfo">Комментарий</label>
-                <textarea class="intput-1" name="Description" value="@Model.Description" type="text"></textarea>
+                <textarea class="intput-1" name="Description" type="text">@Model.Description</textarea>
             </li>
             <li>
                 <button id="btn_ok" type="submit">Сохранить</button>
-                <button id="btn_cancel" type="button">Отменить</button>
+                <button id="btn_cancel" type="button">Отмена</button>
             </li>
         </ul>
     </div>
 </form>
+<script>
+    let btn_cancel = document.querySelector('#btn_cancel');
+    btn_cancel.onclick = () => {
+        window.location.href = '/Addresses/Index';
+    }
+</script>

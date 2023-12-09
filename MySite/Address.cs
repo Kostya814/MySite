@@ -14,5 +14,14 @@
         public string Description { get; set; }
         public string LeterHome { get; set; }
         
+        public string GetInfo => PrefixLocality + " "+
+            NameLocality + "  " +
+            PrefixStreet + " " +
+            NameStreet + "  д." +
+            NumberHouse + " " +
+            LeterHome + "   № к." +
+            NumberCase + "  № кв." +
+            NumberApartments + "  № ком." +
+            NumberRoom;
     }
 }

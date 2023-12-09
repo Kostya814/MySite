@@ -24,16 +24,7 @@ html {
 table {
     width: 100%;
 }
-.message_info {
-    visibility:hidden;
-    position: absolute;
-    background-color: #ed0a20; 
-    bottom: 10px;
-    right: 10px;
-    padding: 10px;
-    border: 3px solid blue;
-    border-radius: 30px;
-}
+
 #row_btn {
     overflow: auto;
     display: flex;
