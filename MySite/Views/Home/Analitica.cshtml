@@ -37,11 +37,11 @@
                         <td>@i.NumberRoom</td>
                         <td>@i.Description</td>
                         <th id="row_btn">
-                            <form id="myForm" method="post" asp-controller="Addresses" asp-action="Delete">
+                            <form id="myForm" method="get" asp-controller="Addresses" asp-action="Delete">
                                 <input id ="idaddress" name="id" type="number" value="@i.Id"/>
                                 <button id="btn_delete" type="submit" onclick="return confirm('Вы действительно хотите удалить адрес @i.GetInfo')">Удалить</button>
                             </form>
-                            <form id="myForm" method="post" asp-controller="Addresses"  asp-action="Edit">
+                            <form id="myForm" method="get" asp-controller="Addresses"  asp-action="Edit">
                                 <input id="idaddress" name="id" type="number" value="@i.Id"/>
                                 <button id="btn_change" type="submit">Редактировать</button>
                             </form>

@@ -35,12 +35,19 @@ namespace MySite.Controllers
             return View("~/Views/Home/Analitica.cshtml",context.Addresses);
         }
         [HttpGet]
-        public IActionResult Edit(Address address)
+        public IActionResult Edit(int id)
         {
-            return View("~/Views/Home/EditAddress.cshtml",address);
+            Address? address = context.Addresses.Find(id);
+            if (address != null)
+            {
+                return View("~/Views/Home/EditAddress.cshtml", address);
+            }
+            else return RedirectToAction("Index", "Addresses", new { TitleResult = "Ошибка поиска", MessageResult = "Не найден адрес" });
+
+            
         }
         [HttpPost]
-        public IActionResult Edit(Address newAddress,int id)
+        public IActionResult Edit(Address newAddress)
         {
             if (ModelState.IsValid)
             {
@@ -52,21 +59,17 @@ namespace MySite.Controllers
                     address.PrefixStreet = newAddress.PrefixStreet;
                     address.NameStreet = newAddress.NameStreet;
                     address.NumberHouse = newAddress.NumberHouse;
-                    address.NumberCase  = newAddress.NumberCase;
+                    address.NumberCase = newAddress.NumberCase;
                     address.NumberApartments = newAddress.NumberApartments;
                     address.NumberRoom = newAddress.NumberRoom;
                     address.LeterHome = newAddress.LeterHome;
-                    address.Description  = newAddress.Description;
+                    address.Description = newAddress.Description;
                 }
+                else return RedirectToAction("Index", "Addresses", new { TitleResult = "Ошибка редактирования", MessageResult = "Изменяемый элемент не найден" });
             }
-            else 
+            else
             {
-                Address? address = context.Addresses.Find(id);
-                if (address != null)
-                {
-                    return RedirectToAction("Edit", "Addresses", address);
-                }
-                else return RedirectToAction("Index", "Addresses", new { TitleResult = "Ошибка поиска", MessageResult = "Не найден адрес" });
+                return RedirectToAction("Index", "Addresses", new { TitleResult = "Ошибка редактирования", MessageResult = "Не правильно введены данные" });
             }
             try
             {
@@ -74,18 +77,13 @@ namespace MySite.Controllers
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Index", "Addresses", new { TitleResult = "Ошибка при изменении", MessageResult = ex?.InnerException?.Message });
+                return RedirectToAction("Index", "Addresses", new { TitleResult = "Ошибка редактирования", MessageResult = ex?.InnerException?.Message });
             }
             return RedirectToAction("Index", "Addresses", new { TitleResult = "Успешное изменение адреса", MessageResult = "Успешно изменено" });
         }
         [HttpPost]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(Address address)
         {
-            var address = context.Addresses.Find(id);
-            if (address == null)
-            {
-                return RedirectToAction("Index", "Addresses", new { TitleResult = "Ошибка поиска", MessageResult = "Не найден адрес" }); 
-            }
             try
             {
                 context.Addresses.Remove(address);
@@ -98,9 +96,14 @@ namespace MySite.Controllers
             return RedirectToAction("Index", "Addresses", new { TitleResult = "Успешное удаление", MessageResult = "Успешно удалено" });
         }
         [HttpGet]
-        public IActionResult Delete()
+        public IActionResult Delete(int id)
         {
-            return View();
+            var address = context.Addresses.Find(id);
+            if (address == null)
+            {
+                return RedirectToAction("Index", "Addresses", new { TitleResult = "Ошибка поиска", MessageResult = "Не найден адрес" });
+            }
+            return RedirectToAction("Delete", "Addresses",address );
         }
         
     }

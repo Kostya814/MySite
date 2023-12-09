@@ -1,5 +1,11 @@
 ﻿@model Address
+<style>
+    #idaddress {
+        display: none;
+    }
+</style>
 <form class="form-address" method="post" asp-controller="Addresses" asp-action="Edit">
+    <input id="idaddress" name="id" type="number" value="@Model.Id" />
     <div class="items">
         <ul class="list">
             <li>
