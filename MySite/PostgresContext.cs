@@ -9,6 +9,7 @@ namespace MySite
             Database.Migrate();
         }
         public DbSet<Address> Addresses { get; set; }
+        public DbSet<City> Cities { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var config = new ConfigurationBuilder()

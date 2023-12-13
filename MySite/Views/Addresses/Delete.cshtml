@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = "Удаление адреса";
+}
+<link href="~/css/address.css" rel="stylesheet" />
+<h1>@ViewData["Title"]</h1>
+<div id="div_delete"> 
+    <form id="form_delete" method="post" asp-controller="Addresses">
+        <p id="text_delete"><strong>@Model.GetInfo</strong></p>
+        <input id="address" name="Id" value="@Model.Id" />
+        <button id="btn_delete" type="submit"  asp-action="Delete">Удалить</button>
+        <button type="submit" formmethod="get" asp-action="Index">Отмена</button>
+    </form>
+</div>
+

@@ -9,5 +9,4 @@ if (message_info_text.textContent !== '')
     }, 5000);
     
 }
-document.querySelector('#Addaddress').onclick = () => { window.location.href = "/Home/Privacy" }
 

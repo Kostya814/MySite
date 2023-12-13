@@ -1,0 +1,67 @@
+﻿@{
+    ViewData["Title"] = "Добавления адреса";
+}
+<header class="header1">
+    <strong>@ViewData["Title"]</strong>
+</header>
+<form class="form-address" method="post" asp-controller="Addresses">
+    <div class="items">
+        <ul class="list">
+            <li>
+                <label class="labeinfo">Населенный пункт</label>
+                <select name="CityId">
+                    @{
+                        foreach (City i in ViewBag.Cities)
+                        {
+                            <option value="@i.Id">
+                                 @i.PrefixLocality @i.NameLocality
+                            </option>
+                        }
+                    }
+                </select>
+            </li>
+            <li>
+                <label class="labeinfo">Префикс улицы</label>
+                <input class="intput-1" name="PrefixStreet" type="text" />
+            </li>
+            <li>
+                <label class="labeinfo">Название улицы</label>
+                <input class="intput-1" name="NameStreet" type="text" />
+            </li>
+            <li>
+                <label class="labeinfo">Номер дома</label>
+                <input class="intput-1" name="NumberHouse" type="number" />
+            </li>
+            <li>
+                <label class="labeinfo">Литера дома</label>
+                <input class="intput-1" name="LeterHome" type="text" />
+            </li>
+            <li>
+                <label class="labeinfo">Номер корпуса</label>
+                <input class="intput-1" name="NumberCase" type="number" />
+            </li>
+            <li>
+                <label class="labeinfo">Номер квартиры</label>
+                <input class="intput-1" name="NumberApartments" type="number" />
+            </li>
+            <li>
+                <label class="labeinfo">Номер комнаты</label>
+                <input class="intput-1" name="NumberRoom" type="number" />
+            </li>
+            <li>
+                <label class="labeinfo">Комментарий</label>
+                <textarea class="intput-1" name="Description" type="text"></textarea>
+            </li>
+            <li>
+                <button id="btn_ok" type="submit"  asp-action="Create">Сохранить</button>
+                <button id="btn_cancel" type="submit" formmethod="get" asp-action="Index">Отмена</button>
+            </li>
+        </ul>
+    </div>
+</form>
+
+
+
+
+
+

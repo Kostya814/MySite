@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewData["Title"] = "Изменение города";
+}
+<link href="~/css/city.css" rel="stylesheet" />
+<h1>@ViewData["Title"]</h1>
+<form class="form-city"  asp-controller="City">
+    <div class="items">
+        <input id="idcity" name="id" type="number" value="@Model.Id" />
+        <ul class="list">
+            <li>
+                <label class="labeinfo">Префикс населеного пункта</label>
+                <input class="intput-1" name="PrefixLocality" type="text" value="@Model.PrefixLocality" />
+            </li>
+            <li>
+                <label class="labeinfo">Название населеного пункта</label>
+                <input class="intput-1" name="NameLocality" type="text" value="@Model.NameLocality" />
+            </li>
+            <li>
+                <button id="btn_ok" type="submit" method="post" asp-action="Edit">Сохранить</button>
+                <button id="btn_cancel" type="submit" asp-action="Index">Отмена</button>
+            </li>
+        </ul>
+    </div>
+</form>

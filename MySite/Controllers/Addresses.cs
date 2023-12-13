@@ -7,55 +7,69 @@ namespace MySite.Controllers
     public class Addresses : Controller
     {
         PostgresContext context = new PostgresContext();
+
         [HttpGet]
-        public IActionResult SaveAddress()
-             => View("~/Views/Home/Index.cshtml");
+        public IActionResult Create()
+        {
+            ViewBag.Cities = context.Cities;
+            if (ViewBag.Cities != null) return View();
+            return RedirectToAction("Index", "Home", new { TitleResult = "Ошибка при добавления", MessageResult = "Добавьте города" });
+        }
 
         [HttpPost]
-        public IActionResult SaveAddress(Address address)
+        public IActionResult Create(Address Address, int CityId)
         {
+            Address.City = context.Cities.Find(CityId);
+            if(Address.City == null)
+                return RedirectToAction("Index", "Home", new { TitleResult = "Ошибка при добавлении", MessageResult = "Ошибка выбора города" });
             try
             {
-                context.Addresses.Add(address);
+                context.Addresses.Add(Address);
                 context.SaveChanges();
             }
-            catch (Exception ex) {
-                return RedirectToAction("Index", "Addresses", new { TitleResult = "Ошибка при добавлении", MessageResult = ex?.InnerException?.Message });
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Home", new { TitleResult = "Ошибка при добавлении", MessageResult = ex?.InnerException?.Message });
             }
-            return RedirectToAction("Index", "Addresses", new { TitleResult = "Успешное добавление", MessageResult = "Успешно добавлено" });
+            return RedirectToAction("Index", "Home", new { TitleResult = "Успешное добавление", MessageResult = "Успешно добавлено" });
         }
+
         [HttpGet]
+
         public IActionResult Index(string TitleResult, string MessageResult)
         {
             if(ModelState.IsValid)
             {
                 ViewBag.TitleResult = TitleResult;
                 ViewBag.MessageResult = MessageResult;
-            }            
-            return View("~/Views/Home/Analitica.cshtml",context.Addresses);
+            }
+            return RedirectToAction("Index", "Home", new { TitleResult= TitleResult, MessageResult = MessageResult });
         }
         [HttpGet]
+
         public IActionResult Edit(int id)
         {
             Address? address = context.Addresses.Find(id);
             if (address != null)
             {
-                return View("~/Views/Home/EditAddress.cshtml", address);
+                ViewBag.Cities = context.Cities;
+                if(ViewBag.Cities != null) return View(address);
+                return RedirectToAction("Index", "Home", new { TitleResult = "Ошибка редактиирования", MessageResult = "Не найден список городов" });
             }
-            else return RedirectToAction("Index", "Addresses", new { TitleResult = "Ошибка поиска", MessageResult = "Не найден адрес" });
+            else return RedirectToAction("Index", "Home", new { TitleResult = "Ошибка поиска", MessageResult = "Не найден адрес" });
 
             
         }
         [HttpPost]
-        public IActionResult Edit(Address newAddress)
+        public IActionResult Edit(Address newAddress,int CityId)
         {
-            if (ModelState.IsValid)
+            newAddress.City = context.Cities.Find(CityId);
+            if (newAddress.City !=null)
             {
                 Address? address = context.Addresses.Find(newAddress.Id);
                 if (address != null)
                 {
-                    address.PrefixLocality = newAddress.PrefixLocality;
-                    address.NameLocality = newAddress.NameLocality;
+                    address.City = newAddress.City;
                     address.PrefixStreet = newAddress.PrefixStreet;
                     address.NameStreet = newAddress.NameStreet;
                     address.NumberHouse = newAddress.NumberHouse;
@@ -65,11 +79,11 @@ namespace MySite.Controllers
                     address.LeterHome = newAddress.LeterHome;
                     address.Description = newAddress.Description;
                 }
-                else return RedirectToAction("Index", "Addresses", new { TitleResult = "Ошибка редактирования", MessageResult = "Изменяемый элемент не найден" });
+                else return RedirectToAction("Index", "Home", new { TitleResult = "Ошибка редактирования", MessageResult = "Изменяемый элемент не найден" });
             }
             else
             {
-                return RedirectToAction("Index", "Addresses", new { TitleResult = "Ошибка редактирования", MessageResult = "Не правильно введены данные" });
+                return RedirectToAction("Index", "Home", new { TitleResult = "Ошибка редактирования", MessageResult = "Не правильно введены данные" });
             }
             try
             {
@@ -77,13 +91,16 @@ namespace MySite.Controllers
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Index", "Addresses", new { TitleResult = "Ошибка редактирования", MessageResult = ex?.InnerException?.Message });
+                return RedirectToAction("Index", "Home", new { TitleResult = "Ошибка редактирования", MessageResult = ex?.InnerException?.Message });
             }
-            return RedirectToAction("Index", "Addresses", new { TitleResult = "Успешное изменение адреса", MessageResult = "Успешно изменено" });
+            return RedirectToAction("Index", "Home", new { TitleResult = "Успешное изменение адреса", MessageResult = "Успешно изменено" });
         }
         [HttpPost]
-        public IActionResult Delete(Address address)
+        public IActionResult Delete(Address IdAddress)
         {
+            Address? address = context.Addresses.Find(IdAddress.Id);
+            if (address == null) 
+                return RedirectToAction("Index", "Home", new { TitleResult = "Ошибка удаления", MessageResult = "Не найден адрес" });
             try
             {
                 context.Addresses.Remove(address);
@@ -91,19 +108,20 @@ namespace MySite.Controllers
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Index", "Addresses",new { TitleResult = "Ошибка удаления", MessageResult = ex?.InnerException?.Message });
+                return RedirectToAction("Index", "Home", new { TitleResult = "Ошибка удаления", MessageResult = ex?.InnerException?.Message });
             }
-            return RedirectToAction("Index", "Addresses", new { TitleResult = "Успешное удаление", MessageResult = "Успешно удалено" });
+            return RedirectToAction("Index", "Home", new { TitleResult = "Успешное удаление", MessageResult = "Успешно удалено" });
         }
         [HttpGet]
         public IActionResult Delete(int id)
         {
+            context.Cities.ToList();
             var address = context.Addresses.Find(id);
             if (address == null)
             {
-                return RedirectToAction("Index", "Addresses", new { TitleResult = "Ошибка поиска", MessageResult = "Не найден адрес" });
+                return RedirectToAction("Index", "Home", new { TitleResult = "Ошибка поиска", MessageResult = "Не найден адрес" });
             }
-            return RedirectToAction("Delete", "Addresses",address );
+            return View(address);
         }
         
     }

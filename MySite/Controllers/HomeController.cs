@@ -8,22 +8,28 @@ namespace MySite.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
+        PostgresContext _postgresContext = new PostgresContext();
         
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
             
         }
-
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult Index(string TitleResult, string MessageResult)
         {
-            return RedirectToAction("Index", "Addresses");
+            if (ModelState.IsValid)
+            {
+                ViewBag.TitleResult = TitleResult;
+                ViewBag.MessageResult = MessageResult;
+            }
+            var list = _postgresContext.Cities.ToList();
+            return View(_postgresContext);
         }
         
         public IActionResult Privacy()
         {
-            return View("~/Views/Home/Index.cshtml");
+            return View();
         }
         public IActionResult Analitica()
         {

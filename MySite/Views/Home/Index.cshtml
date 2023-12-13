@@ -1,81 +1,115 @@
 ﻿@{
-    ViewData["Title"] = "Главная страница";
+    ViewData["Title"] = "Главвная страница";
+   
+    var addresses = Model.Addresses;
+    var cities = Model.Cities;
 }
-<div class="modal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Сохранённые данные</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
-            </div>
-            <div class="modal-body">
-                <p>Здесь идет основной текст модального окна</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" data-bs-dismiss="modal" class="btn btn-primary">Ok</button>
-            </div>
-        </div>
-    </div>
-</div>
-<header class="header1">
-    <strong>Главная страница</strong>
-</header>
-<form class="form-address" method="post" asp-controller="Addresses" asp-action="SaveAddress">
-    <div class="items">
-        <ul class="list">
-            <li>
-                <label class="labeinfo">Префикс населенного пункта</label>
-                <input class="intput-1" name="PrefixLocality" type="text" />
-            </li>
-            <li>
-                <label class="labeinfo">Название населенного пункта</label>
-                <input class="intput-1" name="NameLocality" type="text" />
-            </li>
-            <li>
-                <label class="labeinfo">Префикс улицы</label>
-                <input class="intput-1" name="PrefixStreet" type="text" />
-            </li>
-            <li>
-                <label class="labeinfo">Название улицы</label>
-                <input class="intput-1" name="NameStreet" type="text" />
-            </li>
-            <li>
-                <label class="labeinfo">Номер дома</label>
-                <input class="intput-1" name="NumberHouse" type="number" />
-            </li>
-            <li>
-                <label class="labeinfo">Литера дома</label>
-                <input class="intput-1" name="LeterHome" type="text" />
-            </li>
-            <li>
-                <label class="labeinfo">Номер корпуса</label>
-                <input class="intput-1" name="NumberCase" type="number" />
-            </li>
-            <li>
-                <label class="labeinfo">Номер квартиры</label>
-                <input class="intput-1" name="NumberApartments" type="number" />
-            </li>
-            <li>
-                <label class="labeinfo">Номер комнаты</label>
-                <input class="intput-1" name="NumberRoom" type="number" />
-            </li>
-            <li>
-                <label class="labeinfo">Комментарий</label>
-                <textarea class="intput-1" name="Description" type="text"></textarea>
-            </li>
-            <li>
-                <button id="btn_ok" type="submit">Сохранить</button>
-                <button id="btn_cancel" type="button">Отменить</button>
-            </li>
-        </ul>
-        
-    </div>
-    <form>
-        <textarea id="myTextarea" placeholder="Текст для редактирования" disabled></textarea>
-        <button type="button" id="editButton">Редактировать</button>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css">
+<link rel="stylesheet" href="~/css/message_box.css">
+<header class="header1"><strong>Аналитика</strong></header>
+<div class="interface">
+    <form asp-controller="Addresses" asp-action="Create" method="get">
+        <button id="Add" type="submit">Добавить адрес</button>
     </form>
-</form>
-
-
+    <table id="table_addresses" class="display">
+        <thead>
+            <tr>
+                <th>Префикс населенного пункта</th>
+                <th>Название населенного пункта</th>
+                <th>Префикс улицы</th>
+                <th>Название улицы</th>
+                <th>Номер дома</th>
+                <th>Литера дома</th>
+                <th>Номер корпуса</th>
+                <th>Номер квартиры</th>
+                <th>Номер комнаты</th>
+                <th>Комментарий</th>
+                <th>Кнопки</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (Address i in addresses)
+                {
+                    <tr>
+                        <td>@i.City?.PrefixLocality</td>
+                        <td>@i.City?.NameLocality</td>
+                        <td>@i.PrefixStreet</td>
+                        <td>@i.NameStreet</td>
+                        <td>@i.NumberHouse</td>
+                        <td>@i.LeterHome</td>
+                        <td>@i.NumberCase</td>
+                        <td>@i.NumberApartments</td>
+                        <td>@i.NumberRoom</td>
+                        <td>@i.Description</td>
+                        <th id="row_btn">
+                            <form id="myForm" method="get" asp-controller="Addresses" asp-action="Delete">
+                                <input id="idaddress" name="id" type="number" value="@i.Id" />
+                                <button id="btn_delete" type="submit">Удалить</button>
+                            </form>
+                            <form id="myForm" method="get" asp-controller="Addresses" asp-action="Edit">
+                                <input id="idaddress" name="id" type="number" value="@i.Id" />
+                                <button id="btn_change" type="submit">Редактировать</button>
+                            </form>
+                        </th>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <form asp-controller="City" method="get" asp-action="Create">
+        <button id="Add" type="submit">Добавить город</button>
+    </form>
+    
+    <table id="table_cities" class="display">
+        <thead>
+            <tr>
+                <th>Префикс населенного пункта</th>
+                <th>Название населенного пункта</th>
+                <th>Кнопки</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (City i in cities)
+                {
+                    <tr>
+                        <td>@i.PrefixLocality</td>
+                        <td>@i.NameLocality</td>
+                        <th id="row_btn">
+                            <form id="myForm" method="get" asp-controller="City" asp-action="Delete">
+                                <input id="idaddress" name="id" type="number" value="@i.Id" />
+                                <button id="btn_delete" type="submit">Удалить</button>
+                            </form>
+                            <form id="myForm" method="get" asp-controller="City" asp-action="Edit">
+                                <input id="idaddress" name="id" type="number" value="@i.Id" />
+                                <button id="btn_change" type="submit">Редактировать</button>
+                            </form>
+                        </th>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+<div class="message_info">
+    @{
+        if (ViewBag != null)
+        {
+            <h2 id="message_title">@ViewBag.TitleResult</h2>
+            <p id="message_text">@ViewBag.MessageResult</p>
+        }
+        else
+        {
+            <h2 id="message_title"></h2>
+            <p id="message_text"></p>
+        }
+    }
+</div>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+<script src="~/js/analitica.js"></script>
+<script src="~/js/message_box.js"></script>
 
 
