@@ -1,3 +1,9 @@
 ﻿#idcity {
     display: none;
 }
+.list li {
+    margin: 10px auto
+}
+.list {
+    padding:0px
+}

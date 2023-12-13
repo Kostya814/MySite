@@ -1,9 +1,11 @@
 ﻿
 @{
-    ViewData["Title"] = "Изменение города";
+    ViewData["Title"] = "Изменение населеного пункта";
 }
 <link href="~/css/city.css" rel="stylesheet" />
-<h1>@ViewData["Title"]</h1>
+<header class="header1">
+    <strong>@ViewData["Title"]</strong>
+</header>
 <form class="form-city"  asp-controller="City">
     <div class="items">
         <input id="idcity" name="id" type="number" value="@Model.Id" />

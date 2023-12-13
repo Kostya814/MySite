@@ -1,13 +1,16 @@
 ﻿@{
-    ViewData["Title"] = "Удаление города";
+    ViewData["Title"] = "Удаление населеного пункта";
 }
 <link href="~/css/address.css" rel="stylesheet" />
-<h1>@ViewData["Title"]</h1>
+<link href="~/css/city.css" rel="stylesheet" />
+<header class="header1">
+    <strong>@ViewData["Title"]</strong>
+</header>
 <div id="div_delete">
     <form id="form_delete" asp-controller="City" >
-        <p id="text_delete"><strong>@Model.GetInfo</strong></p>
+        <p id="text_delete"><strong>Вы действительно хотите удалить населеный пункт @Model.GetInfo?</strong></p>
         <input id="address" name="Id" value="@Model.Id" />
         <button id="btn_delete" type="submit" method="post" asp-action="Delete">Удалить</button>
         <button type="submit" asp-action="Index">Отмена</button>
     </form>
-</div>
+</div> 

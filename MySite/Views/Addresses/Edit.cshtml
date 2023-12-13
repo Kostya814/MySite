@@ -3,7 +3,12 @@
         display: none;
     }
 </style>
-
+@{
+    ViewData["Title"] = "Изменение адреса";
+}
+<header class="header1">
+    <strong>@ViewData["Title"]</strong>
+</header>
 <form class="form-address" method="post" asp-controller="Addresses">
     <input id="idaddress" name="id" type="number" value="@Model.Id" />
     <div class="items">
