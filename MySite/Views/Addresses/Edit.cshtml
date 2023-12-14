@@ -37,15 +37,15 @@
             </li>
             <li>
                 <label class="labeinfo">Префикс улицы</label>
-                <input class="intput-1" name="PrefixStreet" value="@Model.PrefixStreet" type="text" />
+                <input class="intput-1" name="PrefixStreet" required value="@Model.PrefixStreet" type="text" />
             </li>
             <li>
                 <label class="labeinfo">Название улицы</label>
-                <input class="intput-1" name="NameStreet" value="@Model.NameStreet" type="text" />
+                <input class="intput-1" name="NameStreet" required value="@Model.NameStreet" type="text" />
             </li>
             <li>
                 <label class="labeinfo">Номер дома</label>
-                <input class="intput-1" name="NumberHouse" value="@Model.NumberHouse" type="number" />
+                <input class="intput-1" name="NumberHouse" required value="@Model.NumberHouse" type="number" />
             </li>
             <li>
                 <label class="labeinfo">Литера дома</label>
@@ -69,7 +69,7 @@
             </li>
             <li>
                 <button id="btn_ok" type="submit" asp-action="Edit">Сохранить</button>
-                <button id="btn_cancel" type="submit" formmethod="get" asp-action="Index">Отмена</button>
+                <button id="btn_cancel" type="submit" formnovalidate formmethod="get" asp-action="Index">Отмена</button>
             </li>
         </ul>
     </div>

@@ -23,19 +23,11 @@ namespace MySite.Controllers
                 ViewBag.TitleResult = TitleResult;
                 ViewBag.MessageResult = MessageResult;
             }
-            var list = _postgresContext.Cities.ToList();
+            _postgresContext.Cities.ToList();
             return View(_postgresContext);
         }
         
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-        public IActionResult Analitica()
-        {
-            return View();
-        }
-
+        
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

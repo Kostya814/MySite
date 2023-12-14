@@ -15,8 +15,7 @@
     <table id="table_addresses" class="display">
         <thead>
             <tr>
-                <th>Префикс населенного пункта</th>
-                <th>Название населенного пункта</th>
+                <th>Населеный пункт</th>
                 <th>Префикс улицы</th>
                 <th>Название улицы</th>
                 <th>Номер дома</th>
@@ -33,8 +32,7 @@
                 foreach (Address i in addresses)
                 {
                     <tr>
-                        <td>@i.City?.PrefixLocality</td>
-                        <td>@i.City?.NameLocality</td>
+                        <td>@i.City?.GetInfo</td>
                         <td>@i.PrefixStreet</td>
                         <td>@i.NameStreet</td>
                         <td>@i.NumberHouse</td>

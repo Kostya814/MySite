@@ -6,7 +6,7 @@
 </header>
 <form class="form-address" method="post" asp-controller="Addresses">
     <div class="items">
-        <ul class="list">
+        <ul class="list" required>
             <li>
                 <label class="labeinfo">Населенный пункт</label>
                 <select name="CityId">
@@ -22,19 +22,19 @@
             </li>
             <li>
                 <label class="labeinfo">Префикс улицы</label>
-                <input class="intput-1" name="PrefixStreet" type="text" />
+                <input class="intput-1" required name="PrefixStreet" type="text" />
             </li>
             <li>
                 <label class="labeinfo">Название улицы</label>
-                <input class="intput-1" name="NameStreet" type="text" />
+                <input class="intput-1" required name="NameStreet" type="text" />
             </li>
             <li>
                 <label class="labeinfo">Номер дома</label>
-                <input class="intput-1" name="NumberHouse" type="number" />
+                <input class="intput-1" required name="NumberHouse" type="number" />
             </li>
             <li>
                 <label class="labeinfo">Литера дома</label>
-                <input class="intput-1" name="LeterHome" type="text" />
+                <input class="intput-1"  name="LeterHome" type="text" />
             </li>
             <li>
                 <label class="labeinfo">Номер корпуса</label>
@@ -54,7 +54,7 @@
             </li>
             <li>
                 <button id="btn_ok" type="submit"  asp-action="Create">Сохранить</button>
-                <button id="btn_cancel" type="submit" formmethod="get" asp-action="Index">Отмена</button>
+                <button id="btn_cancel" type="submit" formnovalidate formmethod="get" asp-action="Index">Отмена</button>
             </li>
         </ul>
     </div>

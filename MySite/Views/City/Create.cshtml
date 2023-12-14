@@ -12,15 +12,15 @@
         <ul class="list">
             <li>
                 <label class="labeinfo">Префикс населеного пункта</label>
-                <input class="intput-1" name="PrefixLocality" type="text" />
+                <input class="intput-1" name="PrefixLocality" required type="text" />
             </li>
             <li>
                 <label class="labeinfo">Название населеного пункта</label>
-                <input class="intput-1" name="NameLocality" type="text"/>
+                <input class="intput-1" name="NameLocality" required type="text" />
             </li>
             <li>
                 <button id="btn_ok" type="submit" method="post" asp-action="Create">Сохранить</button>
-                <button id="btn_cancel" type="submit" asp-action="Index">Отмена</button>
+                <button id="btn_cancel" type="submit" formnovalidate asp-action="Index">Отмена</button>
             </li>
         </ul>
     </div>
