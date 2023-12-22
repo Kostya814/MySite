@@ -6,7 +6,7 @@ namespace MySite.Controllers
 {
     public class City : Controller
     {
-        PostgresContext context = new PostgresContext();
+        UnitOfWork.UnitOfWork unit = new UnitOfWork.UnitOfWork();
         public IActionResult Index(string TitleResult, string MessageResult)
         {
             if (ModelState.IsValid)
@@ -14,7 +14,7 @@ namespace MySite.Controllers
                 ViewBag.TitleResult = TitleResult;
                 ViewBag.MessageResult = MessageResult;
             }
-            return RedirectToAction("Index", "City", new { TitleResult = TitleResult, MessageResult = MessageResult });
+            return RedirectToAction("Index", "Home", new { TitleResult = TitleResult, MessageResult = MessageResult });
         }
 
         [HttpGet]
@@ -26,22 +26,28 @@ namespace MySite.Controllers
         [HttpPost]
         public IActionResult Create(MySite.City city)
         {
-            try
+            if (ModelState.IsValid)
             {
-                context.Add(city);
-                context.SaveChanges();
+                try
+                {
+                    unit.Cities.Create(city);
+                    unit.Save();
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction("Index", "City", new { TitleResult = "Ошибка при добавлении", MessageResult = ex?.InnerException?.Message });
+                }
+                return RedirectToAction("Index", "City", new { TitleResult = "Успешное добавление", MessageResult = "Успешно добавлено" }); unit.Cities.Create(city);
             }
-            catch(Exception ex) 
-            {
-                return RedirectToAction("Index", "City", new { TitleResult = "Ошибка при добавлении", MessageResult = ex?.InnerException?.Message });
-            }
-            return RedirectToAction("Index", "City", new { TitleResult = "Успешное добавление", MessageResult = "Успешно добавлено" });
+            return RedirectToAction("Index", "City", new { TitleResult = "Ошибка при добавлении", MessageResult = "" });
+            
+           
         }
 
         [HttpGet]
         public IActionResult Edit(int id) 
         {
-            MySite.City? city = context.Cities.Find(id);
+            MySite.City? city = unit.Cities.Get(id);
             if(city == null)
                 return RedirectToAction("Index", "City", new { TitleResult = "Ошибка изменеия", MessageResult = "Не найден город" });
             return View(city);
@@ -52,17 +58,13 @@ namespace MySite.Controllers
         {
             if (ModelState.IsValid)
             {
-                MySite.City? city = context.Cities.Find(newCity.Id);
+                MySite.City? city = unit.Cities.Get(newCity.Id);
                 if (city == null)
                     return RedirectToAction("Index", "City", new { TitleResult = "Ошибка изменеия", MessageResult = "Не найден город" });
-                else
-                { 
-                    city.PrefixLocality = newCity.PrefixLocality;
-                    city.NameLocality = newCity.NameLocality;
-                }
                 try
                 {
-                    context.SaveChanges();
+                    unit.Cities.Edit(city);
+                    unit.Save();
                 }
                 catch (Exception ex) 
                 {
@@ -77,7 +79,7 @@ namespace MySite.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            MySite.City? city = context.Cities.Find(id);
+            MySite.City? city = unit.Cities.Get(id);
             if(city == null) 
                 return RedirectToAction("Index", "City", new { TitleResult = "Ошибка удаления", MessageResult = "Не найден город" });
             return View(city);
@@ -86,13 +88,12 @@ namespace MySite.Controllers
         [HttpPost]
         public IActionResult Delete(MySite.City city)
         {
-            MySite.City? City = context.Cities.Find(city.Id);
+            MySite.City? City = unit.Cities.Get(city.Id);
             if(City == null) return RedirectToAction("Index", "City", new { TitleResult = "Ошибка удаления", MessageResult = "Не найден город" });
             try
             {
-                if(City.Addresses!=null) context.RemoveRange(City.Addresses);
-                context.Cities.Remove(City);
-                context.SaveChanges();
+                unit.Cities.Delete(City.Id);
+                unit.Save();
             }
             catch (Exception ex)
             {
