@@ -58,12 +58,9 @@ namespace MySite.Controllers
         {
             if (ModelState.IsValid)
             {
-                MySite.City? city = unit.Cities.Get(newCity.Id);
-                if (city == null)
-                    return RedirectToAction("Index", "City", new { TitleResult = "Ошибка изменеия", MessageResult = "Не найден город" });
                 try
                 {
-                    unit.Cities.Edit(city);
+                    unit.Cities.Edit(newCity);
                     unit.Save();
                 }
                 catch (Exception ex) 
